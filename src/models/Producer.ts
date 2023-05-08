@@ -11,6 +11,7 @@ export default class Producer implements IAgent {
   totalFactorProductivity: number;
   laborElasticity: number;
   capitalElasticity: number;
+  markupPercentage: number;
 
   constructor(
     production: number,
@@ -21,7 +22,8 @@ export default class Producer implements IAgent {
     capital: number,
     totalFactorProductivity: number,
     laborElasticity: number,
-    capitalElasticity: number
+    capitalElasticity: number,
+    markupPercentage: number,
   ) {
     this.production = production;
     this.productionCapacity = productionCapacity;
@@ -32,6 +34,9 @@ export default class Producer implements IAgent {
     this.totalFactorProductivity = totalFactorProductivity;
     this.laborElasticity = laborElasticity;
     this.capitalElasticity = capitalElasticity;
+
+    // Random markup percentage between 10% and 50% to create variation between producers
+    this.markupPercentage = Math.random() * (50 - 10) + 10;
   }
 
   update(): void {
