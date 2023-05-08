@@ -51,6 +51,17 @@ export default class Simulation {
     // Sum the labor of all producers
     return this.producers.reduce((sum, producer) => sum + producer.labor, 0);
   }
+
+  calculateGDPPerCapita(): number {
+    const gdp = this.calculateGDP();
+    const population = this.consumers.length;
+    return gdp / population;
+  }
+
+  update(): void {
+    this.producers.forEach(producer => producer.update());
+    this.consumers.forEach(consumer => consumer.update());
+  }
 }
 
 

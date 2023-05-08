@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import { SimulationOutput } from './SimulationOutput';
 
-const App = () => {
+function App() {
   return (
-    <div>App</div>
-  )
+    <div className="App">
+      <SimulationOutput numProducers={10} numConsumers={50} timeSteps={100} />
+    </div>
+  );
 }
 
-export default App
+export default App;
