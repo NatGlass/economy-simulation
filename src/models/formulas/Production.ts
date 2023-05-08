@@ -7,7 +7,7 @@
 // alpha = labour elasticity
 // beta = capital elasticity
 
-export default class ProductionFormulae{
+export default class ProductionFormula{
     static calculateOutput(
         totalFactorProductivity: number,
         labour: number,
