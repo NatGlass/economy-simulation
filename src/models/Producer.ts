@@ -12,6 +12,8 @@ export default class Producer implements IAgent {
   laborElasticity: number;
   capitalElasticity: number;
   markupPercentage: number;
+  profits: number;
+  investmentPreference: number;
 
   constructor(
     production: number,
@@ -37,13 +39,9 @@ export default class Producer implements IAgent {
 
     // Random markup percentage between 10% and 50% to create variation between producers
     this.markupPercentage = Math.random() * (50 - 10) + 10;
-  }
 
-  update(): void {
-    // Update the producer's behavior based on market conditions
-    this.calculateProduction();
-    this.calculatePrice();
-    this.investAndGrow();
+    this.profits = 0;
+    this.investmentPreference = Math.random(); // Random value between 0 and 1
   }
 
   calculateProduction(): void {
@@ -61,7 +59,47 @@ export default class Producer implements IAgent {
     this.price = this.productionCost * (1 + (this.markupPercentage / 100));
   }
 
+  calculateInvestmentAmount(): number {
+    // Calculate the investment amount based on profits and investment preference
+    return this.profits * this.investmentPreference;
+  }
+
   investAndGrow(): void {
-    // Model how producers invest in their businesses to expand production capacity, improve technology, or increase efficiency
+    const investmentAmount = this.calculateInvestmentAmount();
+
+    // Update the producer's properties based on the amount of investment
+    this.labor += investmentAmount * 0.5; // 50% of the investment goes to increasing labor
+    this.capital += investmentAmount * 0.5; // 50% of the investment goes to increasing capital
+
+    // Reset profits to zero after investing
+    this.profits = 0;
+
+    // Recalculate production capacity and efficiency
+    this.calculateProduction();
+  }
+
+  sellGoods(): void {
+    // Define the inverse demand function: demand = a - b * price
+    const a = 100; // Maximum demand at zero price
+    const b = 0.5; // Slope of the demand curve
+
+    // Calculate the quantity demanded for the producer's goods at the current price
+    const quantityDemanded = Math.max(0, a - b * this.price);
+
+    // Calculate the revenue from selling the goods
+    const revenue = this.price * quantityDemanded;
+
+    // Calculate the costs for producing the goods
+    const productionCosts = this.productionCost * quantityDemanded;
+
+    // Calculate and update the producer's profits
+    this.profits = revenue - productionCosts;
+  }
+
+  update(): void {
+    this.calculateProduction();
+    this.calculatePrice();
+    this.sellGoods();
+    this.investAndGrow();
   }
 }
