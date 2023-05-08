@@ -57,7 +57,8 @@ export default class Producer implements IAgent {
   }
 
   calculatePrice(): void {
-    // Determine the pricing strategy based on production costs, market demand, and competition
+    // Basic Cost-Plus pricing strategy for now
+    this.price = this.productionCost * (1 + (this.markupPercentage / 100));
   }
 
   investAndGrow(): void {
